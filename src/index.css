@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* make root fullscreen */
+html,
+body {
+  height: 100vh;
+}
