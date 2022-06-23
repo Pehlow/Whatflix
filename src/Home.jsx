@@ -21,6 +21,11 @@ function Home() {
     if (data) {
       const newData = data.filter((item) => item.id !== media.id);
       localStorage.setItem(key, JSON.stringify(newData));
+      if (key === "movies") {
+        setMovies(newData);
+      } else if (key === "shows") {
+        setShows(newData);
+      }
     }
   };
 
