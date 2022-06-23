@@ -113,10 +113,10 @@ function Find() {
                   {result.overview.substring(0, 150) + "..."}
                 </p>
               </div>
-              <div className="m-2 flex-1 grow-0 rounded-full bg-emerald-400 p-[2px] transition-all hover:bg-neutral-900">
-                <div className="rounded-full bg-neutral-900 hover:bg-emerald-400">
+              <div className="m-2 flex-1 grow-0 rounded-full bg-blue-400 p-[2px] transition-all hover:bg-neutral-900">
+                <div className="rounded-full bg-neutral-900 hover:bg-blue-400">
                   <button
-                    className="px-1 text-xl text-emerald-400 hover:text-neutral-900"
+                    className="px-1 text-xl text-blue-400 hover:text-neutral-900"
                     onClick={() => addMedia(result)}
                   >
                     +
