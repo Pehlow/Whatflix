@@ -23,11 +23,32 @@ function Find() {
           }&query=${_media}&language=en-US&page=1&include_adult=false`
         );
         const data = await response.json();
-        setResults(data.results);
+        const stored = localStorage.getItem(
+          _filter === "movie" ? "movies" : "shows"
+        );
+        setResults(
+          data.results.filter((item) => !stored || !stored.includes(item.id))
+        );
       }
     }, 250),
     []
   );
+
+  const isMovie = (_media) => {
+    return !_media.hasOwnProperty("first_air_date");
+  };
+
+  const addMedia = (_media) => {
+    const key = isMovie(_media) ? "movies" : "shows";
+    const data = JSON.parse(localStorage.getItem(key));
+    if (!data) {
+      localStorage.setItem(key, JSON.stringify([_media]));
+    } else {
+      const newData = [...data, _media];
+      localStorage.setItem(key, JSON.stringify(newData));
+    }
+    setResults(results.filter((item) => item.id !== _media.id));
+  };
 
   useEffect(() => {
     fetchQuery({ _media: media, _filter: filter });
@@ -94,7 +115,10 @@ function Find() {
               </div>
               <div className="m-2 flex-1 grow-0 rounded-full bg-emerald-400 p-[2px] transition-all hover:bg-neutral-900">
                 <div className="rounded-full bg-neutral-900 hover:bg-emerald-400">
-                  <button className="px-1 text-xl text-emerald-400 hover:text-neutral-900">
+                  <button
+                    className="px-1 text-xl text-emerald-400 hover:text-neutral-900"
+                    onClick={() => addMedia(result)}
+                  >
                     +
                   </button>
                 </div>
