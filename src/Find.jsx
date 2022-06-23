@@ -84,13 +84,20 @@ function Find() {
                 alt={result.title}
                 className="object-fit max-h-28 w-28 flex-1 grow-0 rounded"
               />
-              <div className="flex flex-auto flex-col p-2">
+              <div className="flex flex-1 flex-col p-2">
                 <h2 className="text-base font-bold text-neutral-50">
                   {result.title || result.name}
                 </h2>
                 <p className="overflow-hidden text-clip text-xs text-neutral-50">
                   {result.overview.substring(0, 150) + "..."}
                 </p>
+              </div>
+              <div className="m-2 flex-1 grow-0 rounded-full bg-emerald-400 p-[2px] transition-all hover:bg-neutral-900">
+                <div className="rounded-full bg-neutral-900 hover:bg-emerald-400">
+                  <button className="px-1 text-xl text-emerald-400 hover:text-neutral-900">
+                    +
+                  </button>
+                </div>
               </div>
             </div>
           ))}
