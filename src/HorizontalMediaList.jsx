@@ -9,6 +9,7 @@ function HorizontalMediaList(props) {
           <div
             key={media.id}
             className="inline-block h-full snap-start -scroll-m-3 rounded p-3 first:scroll-m-0 first:pl-0"
+            onClick={() => props.removeMedia(media)}
           >
             <img
               src={

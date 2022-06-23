@@ -1,10 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import HorizontalMediaList from "./HorizontalMediaList";
-import Mockup from "./Mockup";
 
 function Home() {
-  const movies = Mockup.movies;
-  const shows = Mockup.shows;
+  const [movies, setMovies] = useState([]);
+  const [shows, setShows] = useState([]);
+
+  useEffect(() => {
+    const data = localStorage.getItem("movies");
+    setMovies(JSON.parse(data));
+  }, []);
+
+  useEffect(() => {
+    const data = localStorage.getItem("shows");
+    setShows(JSON.parse(data));
+  }, []);
+
+  const removeMedia = (media) => {
+    const key = media.hasOwnProperty("first_air_date") ? "shows" : "movies";
+    const data = JSON.parse(localStorage.getItem(key));
+    if (data) {
+      const newData = data.filter((item) => item.id !== media.id);
+      localStorage.setItem(key, JSON.stringify(newData));
+    }
+  };
+
   return (
     <>
       <div className="bg-neutral-800 pt-20">
@@ -13,8 +32,16 @@ function Home() {
         </h1>
       </div>
       <div className="flex flex-col justify-around p-3">
-        <HorizontalMediaList list={movies} title="Movies" />
-        <HorizontalMediaList list={shows} title="TV Shows" />
+        <HorizontalMediaList
+          removeMedia={removeMedia}
+          list={movies}
+          title="Movies"
+        />
+        <HorizontalMediaList
+          removeMedia={removeMedia}
+          list={shows}
+          title="TV Shows"
+        />
       </div>
     </>
   );

@@ -6,7 +6,7 @@ import Find from "./Find";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Find />
+    <Home />
   </React.StrictMode>,
   document.getElementById("root")
 );
