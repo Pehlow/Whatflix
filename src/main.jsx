@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import Find from "./Find";
+import Home from "./Home";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Find />
+    <Home />
   </React.StrictMode>,
   document.getElementById("root")
 );
