@@ -38,16 +38,16 @@ function Find() {
     return !_media.hasOwnProperty("first_air_date");
   };
 
-  const addMedia = (_media) => {
+  const addMedia = async (_media) => {
     const key = isMovie(_media) ? "movies" : "shows";
-    const data = JSON.parse(localStorage.getItem(key));
-    if (!data) {
-      localStorage.setItem(key, JSON.stringify([_media]));
-    } else {
-      const newData = [...data, _media];
-      localStorage.setItem(key, JSON.stringify(newData));
-    }
-    setResults(results.filter((item) => item.id !== _media.id));
+    const res = await fetch(`http://localhost:3002/${key}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(_media),
+    });
+    res.ok && setResults(results.filter((item) => item.id !== _media.id));
   };
 
   useEffect(() => {

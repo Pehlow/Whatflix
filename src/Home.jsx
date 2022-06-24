@@ -6,25 +6,28 @@ function Home() {
   const [shows, setShows] = useState([]);
 
   useEffect(() => {
-    const data = localStorage.getItem("movies");
-    setMovies(JSON.parse(data));
+    fetch("http://localhost:3002/movies")
+      .then((res) => res.json())
+      .then((data) => setMovies(data));
+    fetch("http://localhost:3002/shows")
+      .then((res) => res.json())
+      .then((data) => setShows(data));
   }, []);
 
-  useEffect(() => {
-    const data = localStorage.getItem("shows");
-    setShows(JSON.parse(data));
-  }, []);
-
-  const removeMedia = (media) => {
+  const removeMedia = async (media) => {
     const key = media.hasOwnProperty("first_air_date") ? "shows" : "movies";
-    const data = JSON.parse(localStorage.getItem(key));
-    if (data) {
-      const newData = data.filter((item) => item.id !== media.id);
-      localStorage.setItem(key, JSON.stringify(newData));
+    const res = await fetch(`http://localhost:3002/${key}/${media.id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(media),
+    });
+    if (res.ok) {
       if (key === "movies") {
-        setMovies(newData);
+        setMovies(movies.filter((item) => item.id !== media.id));
       } else if (key === "shows") {
-        setShows(newData);
+        setShows(shows.filter((item) => item.id !== media.id));
       }
     }
   };

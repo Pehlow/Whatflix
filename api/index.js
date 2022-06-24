@@ -38,10 +38,12 @@ app.get("/shows", async (_req, res) => {
  * @return JSON
  */
 app.post("/movies", async (req, res) => {
-  prisma.movie.create({
-    data: req.body,
+  console.log("POST MOVIES");
+  const dataSent = { ...req.body, userId: 1 };
+  const response = await prisma.movie.create({
+    data: dataSent,
   });
-  res.json(req.body);
+  res.json(response);
 });
 
 /**
