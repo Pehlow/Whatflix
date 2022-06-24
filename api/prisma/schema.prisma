@@ -9,3 +9,46 @@ datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id     String  @id @default(auto()) @map("_id") @db.ObjectId
+  email  String  @unique
+  movies Movie[]
+  shows  Show[]
+}
+
+model Movie {
+  id                Bytes   @id @default(auto()) @map("_id") @db.ObjectId
+  adult             Boolean
+  backdrop_path     String?
+  genre_ids         Int[]
+  original_language String?
+  original_title    String
+  overview          String?
+  popularity        Float
+  poster_path       String?
+  release_date      String
+  title             String
+  video             Boolean
+  vote_average      Float
+  vote_count        Int
+  user              User    @relation(fields: [userId], references: [id])
+  userId            String  @db.ObjectId
+}
+
+model Show {
+  id                Bytes    @id @default(auto()) @map("_id") @db.ObjectId
+  backdrop_path     String?
+  first_air_date    String?
+  genre_ids         Int[]
+  name              String
+  origin_country    String[]
+  original_language String?
+  original_name     String?
+  popularity        Float
+  poster_path       String?
+  vote_average      Float
+  vote_count        Int
+  user              User     @relation(fields: [userId], references: [id])
+  userId            String   @db.ObjectId
+}
