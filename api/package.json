@@ -12,6 +12,8 @@
     "prisma": "^3.15.2"
   },
   "dependencies": {
-    "@prisma/client": "^3.15.2"
-  }
+    "@prisma/client": "^3.15.2",
+    "express": "^4.18.1"
+  },
+  "type": "module"
 }
