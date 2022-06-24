@@ -6,19 +6,19 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id     String  @id @default(auto()) @map("_id") @db.ObjectId
+  id     Int     @id @default(autoincrement())
   email  String  @unique
   movies Movie[]
   shows  Show[]
 }
 
 model Movie {
-  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  id                Int     @id @unique @default(autoincrement())
   adult             Boolean
   backdrop_path     String?
   genre_ids         Int[]
@@ -33,11 +33,11 @@ model Movie {
   vote_average      Float
   vote_count        Int
   user              User    @relation(fields: [userId], references: [id])
-  userId            String  @db.ObjectId
+  userId            Int
 }
 
 model Show {
-  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  id                Int      @id @unique @default(autoincrement())
   backdrop_path     String?
   first_air_date    String?
   genre_ids         Int[]
@@ -50,5 +50,5 @@ model Show {
   vote_average      Float
   vote_count        Int
   user              User     @relation(fields: [userId], references: [id])
-  userId            String   @db.ObjectId
+  userId            Int
 }
