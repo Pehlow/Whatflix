@@ -38,7 +38,7 @@ app.get("/shows", async (_req, res) => {
  * @return JSON
  */
 app.post("/movies", async (req, res) => {
-  console.log("POST MOVIES");
+  /* TODO: Handle specific user */
   const dataSent = { ...req.body, userId: 1 };
   const response = await prisma.movie.create({
     data: dataSent,
@@ -53,8 +53,10 @@ app.post("/movies", async (req, res) => {
  * @return JSON
  */
 app.post("/shows", async (req, res) => {
+  /* TODO: Handle specific user */
+  const dataSent = { ...req.body, userId: 1 };
   prisma.show.create({
-    data: req.body,
+    data: dataSent,
   });
   res.json(req.body);
 });
