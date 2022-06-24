@@ -10,7 +10,7 @@ const app = express();
  * @return  JSON
  */
 
-app.get("/movies", async (req, res) => {
+app.get("/movies", async (_req, res) => {
   const movies = await prisma.movie.findMany();
   res.json(movies);
 });
@@ -22,7 +22,7 @@ app.get("/movies", async (req, res) => {
  * @return JSON
  */
 
-app.get("/shows", async (req, res) => {
+app.get("/shows", async (_req, res) => {
   const shows = await prisma.show.findMany();
   res.json(shows);
 });
@@ -61,12 +61,19 @@ app.post("/shows", async (req, res) => {
  * @param {string} id
  */
 app.delete("/movies/:id", async (req, res) => {
-  const movie = await prisma.movie.delete({
-    where: {
-      id: req.params.id,
-    },
-  });
-  res.json(movie);
+  try {
+    const show = await prisma.movie.delete({
+      where: {
+        id: parseInt(req.params.id),
+      },
+    });
+    res.json(show);
+  } catch (error) {
+    console.log(error);
+    res
+      .status(404)
+      .json({ error: "Specified movie not found and could not be deleted" });
+  }
 });
 
 /**
@@ -77,12 +84,19 @@ app.delete("/movies/:id", async (req, res) => {
  * @param {string} id
  */
 app.delete("/shows/:id", async (req, res) => {
-  const show = await prisma.show.delete({
-    where: {
-      id: req.params.id,
-    },
-  });
-  res.json(show);
+  try {
+    const show = await prisma.show.delete({
+      where: {
+        id: parseInt(req.params.id),
+      },
+    });
+    res.json(show);
+  } catch (error) {
+    console.log(error);
+    res
+      .status(404)
+      .json({ error: "Specified show not found and could not be deleted" });
+  }
 });
 
 const server = app.listen(3002);
