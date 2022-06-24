@@ -33,7 +33,7 @@ app.get("/shows", async (req, res) => {
  * @access Public
  * @return JSON
  */
-app.get("/movies", async (req, res) => {
+app.post("/movies", async (req, res) => {
   prisma.movie.create({
     data: req.body,
   });
@@ -46,7 +46,7 @@ app.get("/movies", async (req, res) => {
  * @access Public
  * @return JSON
  */
-app.get("/shows", async (req, res) => {
+app.post("/shows", async (req, res) => {
   prisma.show.create({
     data: req.body,
   });
@@ -60,7 +60,7 @@ app.get("/shows", async (req, res) => {
  * @return JSON
  * @param {string} id
  */
-app.get("/movies/:id", async (req, res) => {
+app.delete("/movies/:id", async (req, res) => {
   const movie = await prisma.movie.delete({
     where: {
       id: req.params.id,
@@ -76,7 +76,7 @@ app.get("/movies/:id", async (req, res) => {
  * @return JSON
  * @param {string} id
  */
-app.get("/shows/:id", async (req, res) => {
+app.delete("/shows/:id", async (req, res) => {
   const show = await prisma.show.delete({
     where: {
       id: req.params.id,
