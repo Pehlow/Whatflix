@@ -1,0 +1,22 @@
+{
+  "name": "whatflix-api",
+  "version": "1.0.0",
+  "description": "api for whatflix",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.18",
+    "prisma": "^3.15.2"
+  },
+  "dependencies": {
+    "@prisma/client": "^3.15.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.1"
+  },
+  "type": "module"
+}

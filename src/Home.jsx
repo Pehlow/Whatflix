@@ -1,57 +1,57 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import HorizontalMediaList from "./HorizontalMediaList";
 
 function Home() {
-  const [mediaList, setMediaList] = useState([]);
-  const [media, setMedia] = useState("");
+  const [movies, setMovies] = useState([]);
+  const [shows, setShows] = useState([]);
 
-  const updateValue = () => {
-    if (media) {
-      setMediaList([...mediaList, media]);
-      setMedia("");
+  useEffect(() => {
+    fetch("http://localhost:3002/movies")
+      .then((res) => res.json())
+      .then((data) => setMovies(data));
+    fetch("http://localhost:3002/shows")
+      .then((res) => res.json())
+      .then((data) => setShows(data));
+  }, []);
+
+  const removeMedia = async (media) => {
+    const key = media.hasOwnProperty("first_air_date") ? "shows" : "movies";
+    const res = await fetch(`http://localhost:3002/${key}/${media.id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(media),
+    });
+    if (res.ok) {
+      if (key === "movies") {
+        setMovies(movies.filter((item) => item.id !== media.id));
+      } else if (key === "shows") {
+        setShows(shows.filter((item) => item.id !== media.id));
+      }
     }
   };
-  const handleChange = (ev) => {
-    setMedia(ev.target.value);
-    /* reset timer to fetch */
-  };
-  const deleteMedia = (index) => {
-    const newMediaList = [...mediaList];
-    newMediaList.splice(index, 1);
-    setMediaList(newMediaList);
-  };
+
   return (
-    <div className="flex h-full flex-col justify-center bg-slate-900 p-3 align-middle font-sans font-medium text-slate-50">
-      <h1 className="my-8 flex-1 text-center font-sans font-extrabold">
-        Find your media
-      </h1>
-      <div className="flex justify-between border-2 border-solid border-black">
-        <input
-          className="flex-grow p-5 text-slate-900 focus-visible:outline-none"
-          type="text"
-          placeholder="New Movie..."
-          id="newmovie"
-          value={media}
-          onChange={handleChange}
-          onKeyUp={(ev) => {
-            ev.key === "Enter" && updateValue();
-          }}
+    <>
+      <div className="bg-neutral-800 pt-20">
+        <h1 className="p-3 text-3xl font-medium text-neutral-50">
+          What to watch next ?
+        </h1>
+      </div>
+      <div className="flex flex-col justify-around p-3">
+        <HorizontalMediaList
+          removeMedia={removeMedia}
+          list={movies}
+          title="Movies"
         />
-        <input
-          type="button"
-          value="Add"
-          onClick={updateValue}
-          className="border-1 flex-initial rounded border-solid p-3"
+        <HorizontalMediaList
+          removeMedia={removeMedia}
+          list={shows}
+          title="TV Shows"
         />
       </div>
-      <h2 className="my-8 flex-1 text-center font-sans">List of medias</h2>
-      <div className="flex h-min flex-col overflow-auto">
-        {mediaList.map((item, index) => (
-          <div key={index} className="my-3" onClick={() => deleteMedia(index)}>
-            {item}
-          </div>
-        ))}
-      </div>
-    </div>
+    </>
   );
 }
 
